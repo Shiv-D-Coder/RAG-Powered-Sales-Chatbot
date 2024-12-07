@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from groq import Groq
 from datetime import datetime
 import re
+import streamlit as st
 
 # Load environment variables
 load_dotenv()
@@ -12,7 +13,9 @@ load_dotenv()
 class AdvancedRAGPipeline:
     def __init__(self, csv_path='new.csv'):
         # Initialize Groq client
-        self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        groq_api_key = st.secrets["GROQ"]["GROQ_API_KEY"]
+        self.groq_client = Groq(api_key=groq_api_key)
+        # self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         
         # Load and preprocess data
         self.df = pd.read_csv(csv_path)

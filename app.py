@@ -4,6 +4,7 @@ import os
 import base64
 from io import StringIO
 
+
 # Initialize RAG Pipeline
 rag_pipeline = AdvancedRAGPipeline(csv_path='new.csv')
 
