@@ -197,7 +197,7 @@ class AdvancedRAGPipeline:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_entry = f"{timestamp} | Query: {query}\nResponse: {response}\n{'='*50}\n"
         
-        with open(self.query_log_path, 'a') as log_file:
+        with open(self.query_log_path, 'a',encoding='utf-8') as log_file:
             log_file.write(log_entry)
     
     def get_query_log(self) -> str:

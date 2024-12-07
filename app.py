@@ -1,10 +1,11 @@
 import streamlit as st
-from rag_app import AdvancedRAGPipeline
+from rag_app import AdvancedRAGPipeline  # Assuming AdvancedRAGPipeline is in `rag_app.py`
 import os
 import base64
+from io import StringIO
 
 # Initialize RAG Pipeline
-rag_pipeline = AdvancedRAGPipeline()
+rag_pipeline = AdvancedRAGPipeline(csv_path='new.csv')
 
 def download_query_log():
     """
@@ -12,7 +13,7 @@ def download_query_log():
     """
     query_log = rag_pipeline.get_query_log()
     b64 = base64.b64encode(query_log.encode()).decode()
-    href = f'<a href="data:file/txt;base64,{b64}" download="query_log.txt">Download Query Log</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="query_log.csv">Download Query Log</a>'
     st.markdown(href, unsafe_allow_html=True)
 
 def main():
@@ -55,37 +56,48 @@ def main():
     st.title("🚀 Sales Data Intelligence")
     st.write("Ask intelligent questions about your sales data!")
     
-    # Sidebar for additional controls
-    st.sidebar.header("Query Options")
-    sample_queries = [
-        "What were the total sales in 2003?",
-        "Top performing product lines",
-        "Sales by country",
-        "Top 5 customers"
-    ]
-    selected_query = st.sidebar.selectbox("Sample Queries", sample_queries)
-    
+    # Sidebar with app explanation
+    st.sidebar.header("What This App Does")
+    st.sidebar.write("""
+    1. This app allows you to ask data-driven questions about your sales data and get intelligent responses.
+    2. It leverages advanced retrieval-augmented generation (RAG) techniques to process your queries and provide insights.
+    """)
+
     # Main chat interface
-    query = st.text_input("Enter your sales data query:", 
-                           value=selected_query if selected_query else "")
+    if "messages" not in st.session_state:
+        st.session_state.messages = [{"role": "system", "content": "Welcome to the Sales Data Intelligence Chat!"}]
     
-    if st.button("Ask Query"):
-        if query:
-            with st.spinner('Generating response...'):
-                # Generate response
+    # Display previous chat messages
+    for message in st.session_state.messages:
+        if message["role"] != "system":
+            with st.chat_message(message["role"]):
+                st.write(message["content"])
+    
+    # Get the user's question using Streamlit's chat input
+    query = st.chat_input("Enter your sales data query:")
+    
+    if query:
+        # Append user query to chat history
+        st.session_state.messages.append({"role": "user", "content": query})
+        
+        # Display user input
+        with st.chat_message("user"):
+            st.write(query)
+        
+        # Generate response using RAG pipeline
+        with st.chat_message("assistant"):
+            botmsg = st.empty()
+            with st.spinner("Generating response..."):
                 response = rag_pipeline.answer_query(query)
-                
-                # Display response
-                st.success("Response:")
-                st.write(response)
+                botmsg.write(response)
+        
+        # Add assistant's response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})
     
-    # Query log section
-    st.sidebar.header("Query Log")
-    if st.sidebar.button("View Query Log"):
-        log_content = rag_pipeline.get_query_log()
-        st.sidebar.text_area("Query Interactions", log_content, height=300)
-    
-    if st.sidebar.button("Download Query Log"):
+    # Download Query Log Button
+    st.sidebar.header("Download Query Log")
+    download_query_log_button = st.sidebar.button("Download Query Log")
+    if download_query_log_button:
         download_query_log()
 
 if __name__ == "__main__":
