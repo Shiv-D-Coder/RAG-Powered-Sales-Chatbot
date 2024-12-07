@@ -1,18 +1,18 @@
 import os
 import pandas as pd
 import numpy as np
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from groq import Groq
 from datetime import datetime
 import re
 
 # Load environment variables
-load_dotenv()
+# load_dotenv()
 
 class AdvancedRAGPipeline:
     def __init__(self, csv_path='new.csv'):
         # Initialize Groq client
-        self.groq_client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+        self.groq_client = Groq(api_key="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")
         
         # Load and preprocess data
         self.df = pd.read_csv(csv_path)
