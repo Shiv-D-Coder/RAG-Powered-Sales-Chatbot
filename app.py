@@ -2,35 +2,27 @@ import streamlit as st
 from rag_app import AdvancedRAGPipeline
 import os
 import base64
-from pathlib import Path
 
 # Initialize RAG Pipeline
 rag_pipeline = AdvancedRAGPipeline(csv_path='new.csv')
 
-# Function to set a background image with low opacity
-def set_background(image_path):
+def set_background(image_url):
     """
-    Set a background image for the app.
+    Set a background image for the app using a URL.
     """
-    try:
-        with open(image_path, "rb") as file:
-            encoded_image = base64.b64encode(file.read()).decode()
-        st.markdown(
-            f"""
-            <style>
-            .stApp {{
-                background: url(data:image/jpeg;base64,{encoded_image});
-                background-size: cover;
-                background-repeat: no-repeat;
-                opacity: 0.5; /* Adjust opacity here */
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-    except FileNotFoundError:
-        st.error(f"Background image not found: {image_path}")
-
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url("{image_url}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 # Function to download the query log
 def download_query_log():
@@ -55,7 +47,8 @@ def main():
     )
     
     # Set background image
-    set_background(r"Images\img2.jpg")  # Replace "img1.jpg" with your local image path
+    image_url = "https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148879890.jpg"  # Replace with your actual image link
+    set_background(image_url)
 
     # Custom CSS for enhanced UI
     st.markdown("""
@@ -98,9 +91,7 @@ def main():
 
     # Query Log Section
     st.sidebar.header("📜 Query History")
-    download_query_log_button = st.sidebar.button("🔽 Download Query Log")
-    if download_query_log_button:
-        download_query_log()
+    download_query_log()
 
     # Main chat interface
     if "messages" not in st.session_state:
