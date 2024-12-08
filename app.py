@@ -12,21 +12,25 @@ def set_background(image_path):
     """
     Set a background image for the app.
     """
-    with open(image_path, "rb") as file:
-        encoded_image = base64.b64encode(file.read()).decode()
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background: url(data:image/jpeg;base64,{encoded_image});
-            background-size: cover;
-            background-repeat: no-repeat;
-            opacity: 0.5; /* Adjust opacity here */
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    try:
+        with open(image_path, "rb") as file:
+            encoded_image = base64.b64encode(file.read()).decode()
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background: url(data:image/jpeg;base64,{encoded_image});
+                background-size: cover;
+                background-repeat: no-repeat;
+                opacity: 0.5; /* Adjust opacity here */
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+    except FileNotFoundError:
+        st.error(f"Background image not found: {image_path}")
+
 
 # Function to download the query log
 def download_query_log():
