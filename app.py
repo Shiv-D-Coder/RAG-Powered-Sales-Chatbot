@@ -54,7 +54,7 @@ def main():
     
     # Set background image
     image_url = "https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148879890.jpg"  # Replace with your actual image link
-    set_background(image_url)
+    # set_background(image_url)
 
     # Custom CSS for enhanced UI
     st.markdown("""
