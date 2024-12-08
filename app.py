@@ -51,7 +51,7 @@ def main():
     )
     
     # Set background image
-    set_background("Images\img2.jpg")  # Replace "img1.jpg" with your local image path
+    set_background(r"Images\img2.jpg")  # Replace "img1.jpg" with your local image path
 
     # Custom CSS for enhanced UI
     st.markdown("""
