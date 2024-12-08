@@ -1,9 +1,7 @@
 import streamlit as st
-from rag_app import AdvancedRAGPipeline  # Assuming AdvancedRAGPipeline is in `rag_app.py`
+from rag_app import AdvancedRAGPipeline
 import os
 import base64
-from io import StringIO
-
 
 # Initialize RAG Pipeline
 rag_pipeline = AdvancedRAGPipeline(csv_path='new.csv')
@@ -12,10 +10,16 @@ def download_query_log():
     """
     Download query log file
     """
-    query_log = rag_pipeline.get_query_log()
-    b64 = base64.b64encode(query_log.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="query_log.csv">Download Query Log</a>'
-    st.markdown(href, unsafe_allow_html=True)
+    log_path = 'logs/query_log.csv'
+    
+    # Check if log file exists
+    if os.path.exists(log_path):
+        with open(log_path, 'rb') as file:
+            b64 = base64.b64encode(file.read()).decode()
+        href = f'<a href="data:text/csv;base64,{b64}" download="query_log.csv">Download Query Log</a>'
+        st.sidebar.markdown(href, unsafe_allow_html=True)
+    else:
+        st.sidebar.write("No query log found.")
 
 def main():
     # Set page configuration
@@ -57,11 +61,34 @@ def main():
     st.title("🚀 Sales Data Intelligence")
     st.write("Ask intelligent questions about your sales data!")
     
-    # Sidebar with app explanation
-    st.sidebar.header("What This App Does")
+    # Enhanced Sidebar
+    st.sidebar.header("📊 App Features")
     st.sidebar.write("""
-    1. This app allows you to ask data-driven questions about your sales data and get intelligent responses.
-    2. It leverages advanced retrieval-augmented generation (RAG) techniques to process your queries and provide insights.
+    🔍 Intelligent Sales Query Assistant
+    - Ask questions about your sales data
+    - Get instant, data-driven insights
+    - Track and download your query history
+    """)
+    
+    # Add some visual separator
+    st.sidebar.markdown("---")
+    
+    # Query Log Section
+    st.sidebar.header("📜 Query History")
+    st.sidebar.write("Track and analyze your previous queries")
+    
+    # Download Query Log Button
+    download_query_log_button = st.sidebar.button("🔽 Download Query Log")
+    if download_query_log_button:
+        download_query_log()
+    
+    # Add some fun stats or tips
+    st.sidebar.markdown("---")
+    st.sidebar.header("💡 Quick Tips")
+    st.sidebar.write("""
+    - Try asking about total sales
+    - Explore sales by product line
+    - Discover top customers
     """)
 
     # Main chat interface
@@ -94,12 +121,6 @@ def main():
         
         # Add assistant's response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
-    
-    # Download Query Log Button
-    st.sidebar.header("Download Query Log")
-    download_query_log_button = st.sidebar.button("Download Query Log")
-    if download_query_log_button:
-        download_query_log()
 
 if __name__ == "__main__":
     main()

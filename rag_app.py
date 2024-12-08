@@ -6,6 +6,7 @@ from groq import Groq
 from datetime import datetime
 import re
 import streamlit as st
+import io  # Added io import
 
 # Load environment variables
 load_dotenv()
@@ -15,14 +16,13 @@ class AdvancedRAGPipeline:
         # Initialize Groq client
         groq_api_key = st.secrets["GROQ"]["GROQ_API_KEY"]
         self.groq_client = Groq(api_key=groq_api_key)
-        # self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         
         # Load and preprocess data
         self.df = pd.read_csv(csv_path)
         self.preprocess_data()
         
         # Initialize query log as a DataFrame
-        self.query_log = pd.DataFrame(columns=['timestamp', 'query', 'response'])
+        os.makedirs('logs', exist_ok=True)
     
     def preprocess_data(self):
         # Convert date column
@@ -69,7 +69,7 @@ class AdvancedRAGPipeline:
             response = self.generate_groq_response(query)
         
         # Log the query and response
-        self.log_query(timestamp, query, response)
+        self.log_query(query, response)
         return self.format_result(response)
     
     def extract_year(self, query):
@@ -88,7 +88,7 @@ class AdvancedRAGPipeline:
             """
             chat_completion = self.groq_client.chat.completions.create(
                 messages=[
-                    {"role": "system", "content": "You are a sales data analyst ans given qustion but do not show How you reach to that conclusion."},
+                    {"role": "system", "content": "You are a sales data analyst and given question but do not show how you reach to that conclusion."},
                     {"role": "user", "content": f"Context: {context}\n\nQuery: {query}"}
                 ],
                 model="llama-3.3-70b-versatile",
@@ -114,24 +114,34 @@ class AdvancedRAGPipeline:
         
         return result or "No data found."
     
-    def log_query(self, timestamp, query, response):
+    def log_query(self, query, response):
         # Add new query to log
-        new_entry = pd.DataFrame([{
-            'timestamp': timestamp,
+        log_file = 'logs/query_log.csv'
+        
+        # Check if log file exists, if not create with headers
+        if not os.path.exists(log_file):
+            pd.DataFrame(columns=['timestamp', 'query', 'response']).to_csv(log_file, index=False)
+        
+        # Create log entry
+        log_entry = pd.DataFrame([{
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'query': query,
-            'response': response
+            'response': str(response)
         }])
-        self.query_log = pd.concat([self.query_log, new_entry], ignore_index=True)
+        
+        # Append to existing log
+        log_entry.to_csv(log_file, mode='a', header=False, index=False)
     
     def get_query_log(self):
-        # Convert query log to a string for download
+        """
+        Generate a downloadable CSV string for query log
+        """
+        # If no queries logged, return a default message
         if self.query_log.empty:
-            return "No queries logged yet."
+            return "timestamp,query,response\nNo queries logged yet."
         
-        # Create a string buffer to mimic a file
-        buffer = io.StringIO()
-        self.query_log.to_csv(buffer, index=False)
-        return buffer.getvalue()
+        # Convert log to CSV string
+        return self.query_log.to_csv(index=False)
     
     def download_query_log(self, filename='query_log.csv'):
         try:
@@ -173,7 +183,3 @@ class AdvancedRAGPipeline:
     
     def customers_by_country(self):
         return self.df.groupby('COUNTRY')['CUSTOMERNAME'].nunique().to_dict()
-    
-    def download_query_log(self, filename='query_log.csv'):
-        self.query_log.to_csv(filename, index=False)
-        print(f"Query log saved to {filename}")
