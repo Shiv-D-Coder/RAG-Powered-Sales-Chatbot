@@ -2,3 +2,4 @@
 query_log.txt
 __pycache__
 .streamlit
+logs

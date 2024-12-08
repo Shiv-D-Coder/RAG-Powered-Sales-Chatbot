@@ -81,15 +81,14 @@ def main():
     download_query_log_button = st.sidebar.button("🔽 Download Query Log")
     if download_query_log_button:
         download_query_log()
-    
-    # Add some fun stats or tips
-    st.sidebar.markdown("---")
-    st.sidebar.header("💡 Quick Tips")
-    st.sidebar.write("""
-    - Try asking about total sales
-    - Explore sales by product line
-    - Discover top customers
-    """)
+ 
+    # st.sidebar.markdown("---")
+    # st.sidebar.header("💡 Quick Tips")  # Add some fun stats or tips
+    # st.sidebar.write("""
+    # - Try asking about total sales
+    # - Explore sales by product line
+    # - Discover top customers
+    # """)
 
     # Main chat interface
     if "messages" not in st.session_state:
