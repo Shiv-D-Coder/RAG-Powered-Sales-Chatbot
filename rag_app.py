@@ -88,10 +88,10 @@ class AdvancedRAGPipeline:
             """
             chat_completion = self.groq_client.chat.completions.create(
                 messages=[
-                    {"role": "system", "content": "You are a sales data analyst."},
+                    {"role": "system", "content": "You are a sales data analyst ans given qustion but do not show How you reach to that conclusion."},
                     {"role": "user", "content": f"Context: {context}\n\nQuery: {query}"}
                 ],
-                model="llama3-70b-8192",
+                model="llama-3.3-70b-versatile",
                 temperature=0.0
             )
             return chat_completion.choices[0].message.content
