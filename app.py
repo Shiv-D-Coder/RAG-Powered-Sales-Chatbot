@@ -2,17 +2,38 @@ import streamlit as st
 from rag_app import AdvancedRAGPipeline
 import os
 import base64
+from pathlib import Path
 
 # Initialize RAG Pipeline
 rag_pipeline = AdvancedRAGPipeline(csv_path='new.csv')
 
+# Function to set a background image with low opacity
+def set_background(image_path):
+    """
+    Set a background image for the app.
+    """
+    with open(image_path, "rb") as file:
+        encoded_image = base64.b64encode(file.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url(data:image/jpeg;base64,{encoded_image});
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.5; /* Adjust opacity here */
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Function to download the query log
 def download_query_log():
     """
-    Download query log file
+    Download query log file.
     """
     log_path = 'logs/query_log.csv'
-    
-    # Check if log file exists
     if os.path.exists(log_path):
         with open(log_path, 'rb') as file:
             b64 = base64.b64encode(file.read()).decode()
@@ -29,12 +50,12 @@ def main():
         layout="wide"
     )
     
+    # Set background image
+    set_background("Images\img2.jpg")  # Replace "img1.jpg" with your local image path
+
     # Custom CSS for enhanced UI
     st.markdown("""
     <style>
-    .reportview-container {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
     .stTextInput > div > div > input {
         border: 2px solid #3498db;
         border-radius: 10px;
@@ -60,7 +81,7 @@ def main():
     # Title and description
     st.title("🚀 Sales Data Intelligence")
     st.write("Ask intelligent questions about your sales data!")
-    
+
     # Enhanced Sidebar
     st.sidebar.header("📊 App Features")
     st.sidebar.write("""
@@ -69,26 +90,13 @@ def main():
     - Get instant, data-driven insights
     - Track and download your query history
     """)
-    
-    # Add some visual separator
     st.sidebar.markdown("---")
-    
+
     # Query Log Section
     st.sidebar.header("📜 Query History")
-    st.sidebar.write("Track and analyze your previous queries")
-    
-    # Download Query Log Button
     download_query_log_button = st.sidebar.button("🔽 Download Query Log")
     if download_query_log_button:
         download_query_log()
- 
-    # st.sidebar.markdown("---")
-    # st.sidebar.header("💡 Quick Tips")  # Add some fun stats or tips
-    # st.sidebar.write("""
-    # - Try asking about total sales
-    # - Explore sales by product line
-    # - Discover top customers
-    # """)
 
     # Main chat interface
     if "messages" not in st.session_state:
@@ -102,7 +110,6 @@ def main():
     
     # Get the user's question using Streamlit's chat input
     query = st.chat_input("Enter your sales data query:")
-    
     if query:
         # Append user query to chat history
         st.session_state.messages.append({"role": "user", "content": query})
