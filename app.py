@@ -17,24 +17,30 @@ def set_background(image_url):
             background: url("{image_url}");
             background-size: cover;
             background-repeat: no-repeat;
-            opacity: 0.5;
+            opacity: 0.7;
         }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# Function to download the query log
-def download_query_log():
+# Function to download the query log using st.download_button in sidebar
+def download_query_log_sidebar():
     """
-    Download query log file.
+    Create a download button for the query log file in the sidebar.
     """
     log_path = 'logs/query_log.csv'
     if os.path.exists(log_path):
         with open(log_path, 'rb') as file:
             b64 = base64.b64encode(file.read()).decode()
-        href = f'<a href="data:text/csv;base64,{b64}" download="query_log.csv">Download Query Log</a>'
-        st.sidebar.markdown(href, unsafe_allow_html=True)
+        
+        st.sidebar.download_button(
+            label="Download Query Log",
+            data=base64.b64decode(b64),
+            file_name="query_log.csv",
+            mime="text/csv",
+            help="Click to download your query log"
+        )
     else:
         st.sidebar.write("No query log found.")
 
@@ -89,9 +95,9 @@ def main():
     """)
     st.sidebar.markdown("---")
 
-    # Query Log Section
+    # Query Log Section in Sidebar
     st.sidebar.header("📜 Query History")
-    download_query_log()
+    download_query_log_sidebar()
 
     # Main chat interface
     if "messages" not in st.session_state:
