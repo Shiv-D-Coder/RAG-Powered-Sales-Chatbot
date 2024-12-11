@@ -28,3 +28,75 @@ Logs and Monitoring:
 
 Every query and its response are logged.
 Users can download query logs for future reference.
+
+
+🐳 Dockerized Deployment
+This project is fully containerized for hassle-free deployment. With Docker, you can run the bot anywhere with just a few commands.
+
+🏃 How to Run
+
+Option 1: Run Using Docker
+
+Pull the Docker Image
+
+```
+docker pull shiv37/rag-sales-bot
+```
+
+```
+docker run -p 8501:8501 -e GROQ_API_KEY=your_groq_api_key -v /path/to/your/data:/app/data shiv37/rag-sales-bot
+```
+
+Replace /path/to/your/data with the path to the folder containing new.csv.
+Set your_groq_api_key to your valid Groq API key.
+
+Access the Application Open your browser and navigate to http://localhost:8501.
+
+
+Option 2: Clone the Repository and Run Locally
+Clone the Repository
+
+```
+git clone https://github.com/Shiv-D-Coder/RAG-Sales-Bot.git
+cd RAG-Sales-Bot
+```
+Install Dependencies Make sure you have Python installed. Create a virtual environment (optional) and install the required dependencies:
+
+```
+pip install -r requirements.txt
+```
+Configure API Key
+
+a. Use a .streamlit/secrets.toml file. Create a .streamlit/secrets.toml file in the root directory with the following content:
+```
+GROQ_API_KEY = "your_groq_api_key"
+```
+
+b. Use an .env file. Create an .env file in the root directory with the following content:
+```
+GROQ_API_KEY=your_groq_api_key
+```
+
+Run the Application Start the Streamlit app:
+
+```
+streamlit run app.py
+```
+Access the Application Open your browser and navigate to http://localhost:8501.
+
+📊 Example Queries
+Here are some example questions you can ask RAG-Sales-Bot:
+
+"Who is the top customer in terms of sales?"
+"Show me the sales by product line."
+"What is the total number of orders placed in 2023?"
+"What is the distribution of order statuses?"
+🤝 Contributing
+We welcome contributions to improve this project. Feel free to fork the repository, create issues, or submit pull requests. Let's make RAG-Sales-Bot even better together!
+
+💡 Future Plans
+Add support for multilingual queries.
+Integrate additional vector databases for enhanced performance.
+Include dynamic visualizations for insights like time-series trends and geographical sales distribution.
+
+Ready to transform your sales data into actionable insights? Get started with RAG-Sales-Bot today! 🚀
