@@ -36,12 +36,18 @@ Every query and its response are logged.
 Users can download query logs for future reference.
 
 # 🧠 Selected Model: llama-3.3-70b-versatile
+
 This project uses Meta's **llama-3.3-70b-versatile**, a state-of-the-art large language model designed for versatility and scalability. Key features of this model include:
 
 **Developer**: Meta
+
 **Context Window**: Supports up to 128,000 tokens, making it ideal for complex, context-rich queries.
+
 **Max Output Tokens**: Can generate outputs up to 32,768 tokens, ensuring detailed and comprehensive responses.
+
 **Applications**: Perfect for use cases involving long document summarization, intricate reasoning, and detailed conversations.
+
+
 
 # 🔢 Available Models
 
@@ -62,9 +68,9 @@ This project uses Meta's **llama-3.3-70b-versatile**, a state-of-the-art large l
 
 
 
-
 ## 🐳 Dockerized Deployment
 This project is fully containerized for hassle-free deployment. With Docker, you can run the bot anywhere with just a few commands.
+
 
 # 🏃 How to Run
 
