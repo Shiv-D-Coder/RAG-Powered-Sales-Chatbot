@@ -44,19 +44,22 @@ This project uses Meta's **llama-3.3-70b-versatile**, a state-of-the-art large l
 **Applications**: Perfect for use cases involving long document summarization, intricate reasoning, and detailed conversations.
 
 # 🔢 Available Models
-Model ID	Developer	Context Window (Tokens)	Max Output Tokens	Max File Size
-distil-whisper-large-v3-en	HuggingFace	-	-	25 MB
-gemma2-9b-it	Google	8,192	-	-
-gemma-7b-it	Google	8,192	-	-
-llama-3.3-70b-versatile	Meta	128,000	32,768	-
-llama-3.1-70b-versatile	Meta	128,000	32,768	(DEPRECATED)
-llama-3.1-8b-instant	Meta	128,000	8,192	-
-llama-guard-3-8b	Meta	8,192	-	-
-llama3-70b-8192	Meta	8,192	-	-
-llama3-8b-8192	Meta	8,192	-	-
-mixtral-8x7b-32768	Mistral	32,768	-	-
-whisper-large-v3	OpenAI	-	-	25 MB
-whisper-large-v3-turbo	OpenAI	-	-	25 MB
+
+| **Model ID**                | **Developer** | **Context Window (Tokens)** | **Max Output Tokens** | **Max File Size** |
+|-----------------------------|---------------|-----------------------------|-----------------------|-------------------|
+| distil-whisper-large-v3-en  | HuggingFace   | -                           | -                     | 25 MB            |
+| gemma2-9b-it                | Google        | 8,192                       | -                     | -                |
+| gemma-7b-it                 | Google        | 8,192                       | -                     | -                |
+| llama-3.3-70b-versatile     | Meta          | 128,000                     | 32,768                | -                |
+| llama-3.1-70b-versatile     | Meta          | 128,000                     | 32,768                | (DEPRECATED)     |
+| llama-3.1-8b-instant        | Meta          | 128,000                     | 8,192                 | -                |
+| llama-guard-3-8b            | Meta          | 8,192                       | -                     | -                |
+| llama3-70b-8192             | Meta          | 8,192                       | -                     | -                |
+| llama3-8b-8192              | Meta          | 8,192                       | -                     | -                |
+| mixtral-8x7b-32768          | Mistral       | 32,768                      | -                     | -                |
+| whisper-large-v3            | OpenAI        | -                           | -                     | 25 MB            |
+| whisper-large-v3-turbo      | OpenAI        | -                           | -                     | 25 MB            |
+
 
 
 
