@@ -35,6 +35,30 @@ Powered by Streamlit, the bot provides an interactive UI for real-time query han
 Every query and its response are logged.
 Users can download query logs for future reference.
 
+# 🧠 Selected Model: llama-3.3-70b-versatile
+This project uses Meta's **llama-3.3-70b-versatile**, a state-of-the-art large language model designed for versatility and scalability. Key features of this model include:
+
+**Developer**: Meta
+**Context Window**: Supports up to 128,000 tokens, making it ideal for complex, context-rich queries.
+**Max Output Tokens**: Can generate outputs up to 32,768 tokens, ensuring detailed and comprehensive responses.
+**Applications**: Perfect for use cases involving long document summarization, intricate reasoning, and detailed conversations.
+
+# 🔢 Available Models
+Model ID	Developer	Context Window (Tokens)	Max Output Tokens	Max File Size
+distil-whisper-large-v3-en	HuggingFace	-	-	25 MB
+gemma2-9b-it	Google	8,192	-	-
+gemma-7b-it	Google	8,192	-	-
+llama-3.3-70b-versatile	Meta	128,000	32,768	-
+llama-3.1-70b-versatile	Meta	128,000	32,768	(DEPRECATED)
+llama-3.1-8b-instant	Meta	128,000	8,192	-
+llama-guard-3-8b	Meta	8,192	-	-
+llama3-70b-8192	Meta	8,192	-	-
+llama3-8b-8192	Meta	8,192	-	-
+mixtral-8x7b-32768	Mistral	32,768	-	-
+whisper-large-v3	OpenAI	-	-	25 MB
+whisper-large-v3-turbo	OpenAI	-	-	25 MB
+
+
 
 ## 🐳 Dockerized Deployment
 This project is fully containerized for hassle-free deployment. With Docker, you can run the bot anywhere with just a few commands.
@@ -98,10 +122,10 @@ Here are some example questions you can ask RAG-Sales-Bot:
 3. "What is the total number of orders placed in 2023?"
 "4. What is the distribution of order statuses?"
 
-# 🤝 Contributing
+## 🤝 Contributing
 We welcome contributions to improve this project. Feel free to fork the repository, create issues, or submit pull requests. Let's make RAG-Sales-Bot even better together!
 
-# 💡 Future Plans
+## 💡 Future Plans
 Add support for multilingual queries.
 Integrate additional vector databases for enhanced performance.
 Include dynamic visualizations for insights like time-series trends and geographical sales distribution.
