@@ -66,7 +66,7 @@ This project uses Meta's **llama-3.3-70b-versatile**, a state-of-the-art large l
 | whisper-large-v3            | OpenAI        | -                           | -                     | 25 MB            |
 | whisper-large-v3-turbo      | OpenAI        | -                           | -                     | 25 MB            |
 
-
+**NOTE:** This is applicabel if you are using Groq.
 
 ## 🐳 Dockerized Deployment
 This project is fully containerized for hassle-free deployment. With Docker, you can run the bot anywhere with just a few commands.
