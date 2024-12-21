@@ -1,4 +1,4 @@
-# 🚀 RAG-Sales-Bot: Revolutionizing Sales Data Analysis with RAG and Streamlit
+# 🚀 RAG-Sales-Bot: Revolutionizing Sales Data Analysis with RAG and Streamlit [Live](https://rag-sales-chatbot.streamlit.app/)
 RAG-Sales-Bot is an advanced Retrieval-Augmented Generation (RAG) system designed to process and analyze sales data effortlessly. With the integration of Streamlit, FAISS for vector similarity search, and Groq API for complex queries, this bot offers unparalleled efficiency for answering business-critical questions.
 
 ### 🌟 Features
